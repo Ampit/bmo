@@ -1,14 +1,17 @@
 import { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import SearchForm from "./components/SearchForm";
+import Table from "./components/Table";
+import { sortTitle, sortByDate } from "./sortFunctions";
 
 const SEARCH_URL = "http://openlibrary.org/search.json?q=";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [fetching, setFetching] = useState(false);
-  const [numBooks, setNumBooks] = useState(0);
-  const [numPages, setNumPages] = useState(0);
+  const [numBooks, setNumBooks] = useState();
+  const [numPages, setNumPages] = useState();
   const [books, setBooks] = useState();
 
   const handleSubmit = async (e) => {
@@ -25,22 +28,6 @@ function App() {
     }
   };
 
-  const sortTitle = () => {
-    const booksToSort = books.slice();
-    booksToSort.sort((a, b) => {
-      const nameA = a.title.toUpperCase(); // ignore upper and lowercase
-      const nameB = b.title.toUpperCase(); // ignore upper and lowercase
-      if (nameA < nameB) {
-        return -1; //nameA comes first
-      }
-      if (nameA > nameB) {
-        return 1; // nameB comes first
-      }
-      return 0; // names must be equal
-    });
-    setBooks(booksToSort);
-  };
-
   const updatePage = async (page) => {
     setFetching(true);
     try {
@@ -54,12 +41,12 @@ function App() {
 
   const pagination = () => {
     const pages = [];
-    for (let i = 2; i <= numPages; i++) {
+    for (let i = 1; i <= numPages; i++) {
       pages.push(SEARCH_URL + searchTerm + "&page=" + i);
     }
     return (
       <>
-        <h5 className="navPageTitle">Pages</h5>
+        {numPages && <h5 className="navPageTitle">Pages</h5>}
         <ul className="tableNav">
           {pages.map((page, index) => (
             <li>
@@ -70,7 +57,7 @@ function App() {
                   window.scrollTo(0, 0);
                 }}
               >
-                {index + 2}
+                {index + 1}
               </button>
             </li>
           ))}
@@ -82,55 +69,22 @@ function App() {
   return (
     <div className="App">
       <h1>Book Search App</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          className="searchInput"
-          type="text"
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search for a book..."
-          value={searchTerm}
-        />
-        <input type="submit" value="Search" className="submitBtn" />
-      </form>
-      {/* Show Results in a table here (Title, Book Cover, Author, Publish Date) */}
+      <SearchForm
+        setSearchTerm={setSearchTerm}
+        searchTerm={searchTerm}
+        handleSubmit={handleSubmit}
+      />
       {fetching && <div className="fetching">Fetching...</div>}
       {numBooks && <div className="booksNumber">{numBooks} Books Found.</div>}
-      <table className="table">
-        <tbody>
-          <tr>
-            <th className="sortField" onClick={() => sortTitle()}>
-              Title
-            </th>
-            <th>Book Cover</th>
-            <th>Author</th>
-            <th className="sortField">Publish Date</th>
-          </tr>
-          {books &&
-            books.map((row, index) => (
-              <tr key={row._version_ + index + Math.floor(Math.random() * 100)}>
-                <td>{row.title}</td>
-                {row.isbn && (
-                  <td>
-                    <img
-                      alt={row.title}
-                      src={
-                        "http://covers.openlibrary.org/b/isbn/" +
-                        row.isbn[0] +
-                        "-S.jpg"
-                      }
-                    />
-                  </td>
-                )}
-                {!row.isbn && <td>---</td>}
-                {row.author_name && <td>{row.author_name[0]}</td>}
-                {!row.author_name && <td>---</td>}
-                {row.publish_date && <td>{row.publish_date[0]}</td>}
-                {!row.publish_date && <td>---</td>}
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      {/* Pagination */}
+      <p className="sortText">
+        Click on Title or Publish Date Header to sort the rows
+      </p>
+      <Table
+        setBooks={setBooks}
+        sortTitle={sortTitle}
+        sortByDate={sortByDate}
+        books={books}
+      />
       {pagination()}
     </div>
   );
