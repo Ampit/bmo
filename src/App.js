@@ -5,7 +5,7 @@ import SearchForm from "./components/SearchForm";
 import Table from "./components/Table";
 import { sortTitle, sortByDate } from "./sortFunctions";
 
-const SEARCH_URL = "http://openlibrary.org/search.json?q=";
+const SEARCH_URL = "https://openlibrary.org/search.json?q=";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
