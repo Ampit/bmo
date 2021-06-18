@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,100&display=swap");
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
 }
@@ -51,4 +55,36 @@ th {
   border: 1px solid #ccc;
   padding: 0.5em;
   font-size: 0.8em;
+}
+
+th.sortField {
+  cursor: pointer;
+}
+
+.sortField:hover {
+  text-decoration: underline;
+}
+
+.booksNumber {
+  margin: 2em 0;
+}
+
+.navPageTitle {
+  display: block;
+}
+
+.tableNav {
+  display: flex;
+  width: 90%;
+  flex-wrap: wrap;
+}
+
+.tableNav li {
+  list-style-type: none;
+}
+
+.tableBtn {
+  padding: 0.25em 0.5em;
+  margin: 0.25em;
+  cursor: pointer;
 }
