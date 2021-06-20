@@ -6,6 +6,7 @@ const SearchForm = ({ handleSubmit, setSearchTerm, searchTerm }) => {
       <input
         className="searchInput"
         type="text"
+        role="search"
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search for a book..."
         value={searchTerm}

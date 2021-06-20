@@ -1,5 +1,5 @@
-import { useState } from "react";
-import "./App.css";
+import React, { useState } from "react";
+// import "./App.css";
 import axios from "axios";
 import SearchForm from "./components/SearchForm";
 import Table from "./components/Table";
