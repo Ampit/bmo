@@ -17,3 +17,9 @@ test("render input field", () => {
   const el = screen.getByRole("search");
   expect(el).toBeInTheDocument();
 });
+
+test("renders submit btn", () => {
+  render(<App />);
+  const el = screen.getByLabelText("submitBtn");
+  expect(el).toBeInTheDocument();
+});

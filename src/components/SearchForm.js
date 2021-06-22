@@ -11,7 +11,7 @@ const SearchForm = ({ handleSubmit, setSearchTerm, searchTerm }) => {
         placeholder="Search for a book..."
         value={searchTerm}
       />
-      <input type="submit" value="Search" className="submitBtn" />
+      <input aria-label="submitBtn" type="submit" value="Search" className="submitBtn" />
     </form>
   );
 };
