@@ -22,4 +22,4 @@ Most useful features I use are arrow functions , spead, destructuring.
 
 More detailed documentation
 
-Please describe yourself using correctly formatted JSON.
+Built using Create React App
